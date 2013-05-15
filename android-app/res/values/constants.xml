@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <integer name="tab_width">100</integer>
+    <integer name="tab_height">50</integer>
+    
+    <integer name="timeDifference4DoubleClick">1000</integer>
+    <integer name="separator_height">22</integer>
+    <integer name="input_field_height">64</integer>
+    
+    <integer name="field_height">64</integer>
+    
+    <!-- FILE SYSTEM -->
+    <string name="application_folder">/ofcm</string>
+    <string name="data_folder">/ofcm/data</string>
+    <string name="exported_data_folder">/ofcm/data/exported</string>
+    <string name="imported_data_folder">/ofcm/data/imported</string>
+    <string name="logs_folder">/ofcm/logs</string>
+    <string name="logs_file_name">/log_</string>
+    <string name="log_file_extension">.txt</string>
+    <string name="backup_folder">/ofcm/backups</string>
+    <string name="formDefinitionFile">/test.idm.xml</string>
+    <!--<string name="formDefinitionFile">/pe2013infbiomse.xml</string>-->
+    <!--<string name="formDefinitionFile">/test.idmARCHENLAND.xml</string>-->
+    
+    <string name="formDefinitionFileTest">/test.idm.grdemo.new.xml</string>
+    
+    <!-- PREFERENCES -->
+    <string name="sleepTime">sleepTime</string>
+    <string name="showSoftKeyboardOnTextField">showSoftKeyboardOnText</string>
+    <string name="showSoftKeyboardOnNumericField">showSoftKeyboardOnNumeric</string>
+    <string name="backgroundColor">backgroundColor</string>
+    <string name="gpsTimeout">gpsTimeout</string>
+	<integer name="gpsTimeoutInMs">60000</integer>
+    <integer name="gpsMinUpdateTime">60000</integer>
+    <integer name="gpsMinUpdateDistance">10</integer>
+    <string name="selectedLanguage">selectedLanguage</string>
+    <string name="defaultLanguage">en</string>
+    <string name="formDefinitionPath">formDefinitionPath</string>
+    <string name="defaultFormDefinitionPath">/test.idm.xml</string>
+    
+    <string name="left_swipe">left_swipe</string>
+    <string name="right_swipe">right_swipe</string>
+    <string name="save_gesture">save</string>
+    <string name="open_gesture">open</string>
+    
+    <string name="text_type_long">MEMO</string>
+    <string name="text_type_short">SHORT</string>
+    
+    <!-- DEFAULT USER -->
+    <string name="defaultUsername">collect</string>
+    <string name="defaultUserPassword">collect</string>
+    <integer name ="defaulUsertId">99999</integer>
+    <string name="defaultUserRole">ROLE_ADMIN</string>
+    
+    <!-- REQUEST CODES FOR ACTIVITIES -->
+    <integer name="clusterSelection">789</integer>
+    <integer name="rootEntitySelection">111</integer>
+    <integer name="formDefinitionSelection">101</integer>
+    <integer name="clusterChoiceSuccessful">123</integer>
+    <integer name="formDefinitionChoiceSuccessful">202</integer>
+    <integer name="rootEntityChoiceSuccessful">222</integer>
+    <integer name="clusterChoiceFailed">456</integer>
+    <integer name="startingFormScreen">1000</integer>
+    <integer name="backButtonPressed">997</integer>
+    <integer name="cameraStarted">986</integer>  
+    <integer name="internalGpsStarted">985</integer>
+    <integer name="photoTaken">702</integer>
+    <integer name="internalGpsLocationReceived">701</integer>        
+   
+    <!-- INTENT EXTRAS -->
+    <string name="recordId">recordId</string>
+    <string name="rootEntityId">rootEntityId</string>
+    <string name="formId">formId</string>
+    <string name="entityId">entityId</string>
+    <string name="attributeId">attributeId</string>
+    <string name="breadcrumbSeparator">-></string>
+    <string name="breadcrumb">breadcrumb</string>
+    <string name="intentType">intentType</string>
+    <string name="idmlId">idmlId</string>
+    <string name="parentFormScreenId">parentFormScreenId</string>
+    <string name="instanceNo">instanceNo</string>
+    <string name="numberOfInstances">numberOfInstances</string>
+    <string name="instanceValues">instanceValues</string>
+    <integer name="multipleAttributeIntent">1</integer>
+    <integer name="multipleEntityIntent">2</integer>
+    <integer name="singleEntityIntent">3</integer>
+    <integer name="breadcrumbFontSize">24</integer>
+    <string name="photoPath">photoPath</string>
+    <string name="latitude">latitude</string>
+    <string name="longitude">longitude</string>
+    
+    <!-- BUTTONS IDs -->
+    <integer name="leftButtonMultipleAttribute">11</integer>
+    <integer name="rightButtonMultipleAttribute">22</integer>
+    <integer name="leftButtonMultipleEntity">33</integer>
+    <integer name="rightButtonMultipleEntity">44</integer>    
+    
+    <!-- SEPARATORS -->
+    <string name="valuesSeparator1">,</string>
+    <string name="valuesSeparator2">;</string>
+    <string name="valuesEqualsTo">=</string>
+    <string name="valuesNotVisibleSign">...</string>
+    <string name="dateSeparator">-</string>
+    <string name="timeSeparator">:</string>
+    <string name="rangeSeparator">-</string>
+    <string name="coordinateSeparator">,</string>
+    <string name="taxonSeparator">,</string>
+    
+    <!-- ADDITIONAL TEXT MARKERS -->
+    <string name="requiredFieldMarker">*</string>
+    <string name="notRequiredFieldMarker"></string>
+    
+    <!-- SERVER -->
+    <string name="serverAddress">ar5.arbonaut.com/webforest/fao-mobile/save-received-data-file</string>
+    
+    <!-- colors -->
+    <color name="greenStart">#00ff00</color>
+    <color name="greenMid">#00ff00</color>
+    <color name="greenEnd">#00ff00</color>
+</resources>

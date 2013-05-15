@@ -1,0 +1,6 @@
+.*
+!.gitignore
+project.properties
+target*
+bin*
+gen*
