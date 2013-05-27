@@ -107,6 +107,20 @@ public class ApplicationManager extends BaseActivity {
 	        	
 	            initSession();
 	            
+	            dataSource = new SQLDroidDataSource();
+	        	dataSource.setUrl(DatabaseWrapper.CONNECTION_URL);
+	        	JdbcDaoSupport.init(dataSource);
+	        	
+			    DatabaseWrapper.init(ApplicationManager.this);
+	        	
+			    //updateDBSchema();
+			    //creating database
+			    //new DatabaseWrapper(ApplicationManager.this);
+			    //CollectDatabase collectDB = new CollectDatabase(DatabaseWrapper.db);
+	        	//opening database connection		    
+	        	JdbcDaoSupport jdbcDao = new JdbcDaoSupport();
+	        	jdbcDao.getConnection();
+	            
 	            ApplicationManager.currentRecord = null;
 	            ApplicationManager.currRootEntityId = -1;
 	            ApplicationManager.selectedView = null;
@@ -157,7 +171,7 @@ public class ApplicationManager extends BaseActivity {
 	        	surveyManager.setCollectSurveyContext(collectSurveyContext);
 	        	//surveyManager.setSurveyDao(new SurveyDao(collectSurveyContext));
 	        	SurveyDao surveyDao = new SurveyDao();
-	        	surveyDao.setSurveyContext(collectSurveyContext);
+	        	surveyDao.setSurveyContext(collectSurveyContext);	        	
 	        	surveyManager.setSurveyWorkDao(new SurveyWorkDao());
 	        	surveyManager.setSurveyDao(surveyDao);
 	        	surveyManager.init();
@@ -214,8 +228,6 @@ public class ApplicationManager extends BaseActivity {
 	            
 	            ApplicationManager.pd.dismiss();
 	            
-
-	            
 	            //showRootEntitiesListScreen();
 	            showFormsListScreen();
 			} catch (Exception e) {
@@ -236,56 +248,7 @@ public class ApplicationManager extends BaseActivity {
         try{
         	ApplicationManager.pd = ProgressDialog.show(this, getResources().getString(R.string.workInProgress), getResources().getString(R.string.launchAppMessage));
         	Log.i(getResources().getString(R.string.app_name),TAG+":onCreate");
-        	setContentView(R.layout.welcomescreen);
-        	
-        	/*String url = "jdbc:sqldroid:"+"/data/data/org.openforis.collect.android/databases/collect.db";
-        	BasicDataSource bdSource = new BasicDataSource();
-			bdSource.setDriverClassName("org.sqldroid.SQLDroidDriver");
-			bdSource.setUrl(url);
-			bdSource.setUsername("");
-			bdSource.setPassword("");
-        	
-        	DatabaseAwareSpringLiquibase liquibase = new DatabaseAwareSpringLiquibase();
-        	liquibase.setDataSource(bdSource);
-        	liquibase.setChangeLog("classpath:org/openforis/collect/db/changelog/db.changelog-master.xml");*/
-        	
-        	//creating database
-        	dataSource = new SQLDroidDataSource();
-        	dataSource.setUrl(DatabaseWrapper.CONNECTION_URL);
-        	JdbcDaoSupport.init(dataSource);
-        	
-		    DatabaseWrapper.init(this);
-        	
-		    updateDBSchema();
-		    
-        	//creating database
-		   // new DatabaseWrapper(ApplicationManager.this);
-		    //CollectDatabase collectDB = new CollectDatabase(DatabaseWrapper.db);
-        	
-        	/*JdbcDaoSupport jdbcDao = new JdbcDaoSupport();
-        	jdbcDao.getConnection();
-            Connection c = jdbcDao.getConnection();
-            Liquibase liquibase = null;
-            try {            
-                Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(DriverManager.getConnection("jdbc:sqldroid:"+"/data/data/org.openforis.collect.android/databases/collect.db")) );//(Database) DatabaseWrapper.db;
-                liquibase = new Liquibase("classpath:org/openforis/collect/db/changelog/db.changelog-master.xml", new FileSystemResourceAccessor(), database);
-                liquibase.update(null);
-            } finally {
-                if (c != null) {
-                    try {
-                        c.rollback();
-                        c.close();
-                    } catch (SQLException e) {
-                        //nothing to do
-                    }
-                }
-            }*/
-		    //creating database
-		    //new DatabaseWrapper(ApplicationManager.this);
-		    //CollectDatabase collectDB = new CollectDatabase(DatabaseWrapper.db);
-        	//opening database connection		    
-        	JdbcDaoSupport jdbcDao = new JdbcDaoSupport();
-        	jdbcDao.getConnection();
+        	setContentView(R.layout.welcomescreen);        	
         	
         	ApplicationManager.appPreferences = getPreferences(MODE_PRIVATE);
 			int backgroundColor = ApplicationManager.appPreferences.getInt(getResources().getString(R.string.backgroundColor), Color.WHITE);
@@ -295,9 +258,7 @@ public class ApplicationManager extends BaseActivity {
 			int gpsTimeout = ApplicationManager.appPreferences.getInt(getResources().getString(R.string.gpsTimeout), getResources().getInteger(R.integer.gpsTimeoutInMs));
 			editor = ApplicationManager.appPreferences.edit();
 			editor.putInt(getResources().getString(R.string.gpsTimeout), gpsTimeout);
-			//editor.commit();
             
-			//Set virtual keyboard to 'false' if it's NULL
 	    	Map<String, ?> settings = ApplicationManager.appPreferences.getAll();
 	    	Boolean valueForNum = (Boolean)settings.get(getResources().getString(R.string.showSoftKeyboardOnNumericField));			
 	    	Boolean valueForText = (Boolean)settings.get(getResources().getString(R.string.showSoftKeyboardOnTextField));
@@ -315,106 +276,10 @@ public class ApplicationManager extends BaseActivity {
 			editor = ApplicationManager.appPreferences.edit();
 			editor.putString(getResources().getString(R.string.formDefinitionPath), formDefinitionPath);
 			
-	    	editor.commit();			
+	    	editor.commit();
 	    		    
         	creationThread.start();
-        /*	long startTime = System.currentTimeMillis();
         	
-            initSession();
-            
-            ApplicationManager.currentRecord = null;
-            ApplicationManager.currRootEntityId = -1;
-            ApplicationManager.selectedView = null;
-            ApplicationManager.isToBeScrolled = false;
-            
-            ApplicationManager.appPreferences = getPreferences(MODE_PRIVATE);
-			int backgroundColor = ApplicationManager.appPreferences.getInt(getResources().getString(R.string.backgroundColor), Color.WHITE);
-			SharedPreferences.Editor editor = ApplicationManager.appPreferences.edit();
-			editor.putInt(getResources().getString(R.string.backgroundColor), backgroundColor);
-			//editor.commit();
-            
-			//Set virtual keyboard to 'false' if it's NULL
-	    	Map<String, ?> settings = ApplicationManager.appPreferences.getAll();
-	    	Boolean valueForNum = (Boolean)settings.get(getResources().getString(R.string.showSoftKeyboardOnNumericField));			
-	    	Boolean valueForText = (Boolean)settings.get(getResources().getString(R.string.showSoftKeyboardOnTextField));
-	    	if(valueForNum == null)
-	    		editor.putBoolean(getResources().getString(R.string.showSoftKeyboardOnNumericField), false);
-	    	if(valueForText == null)
-	    		editor.putBoolean(getResources().getString(R.string.showSoftKeyboardOnTextField), false);	    	
-	    	editor.commit();			
-			
-			//creating file structure used by the application
-        	String sdcardPath = Environment.getExternalStorageDirectory().toString();
-			File folder = new File(sdcardPath+getResources().getString(R.string.application_folder));
-			folder.mkdirs();
-			folder = new File(sdcardPath+getResources().getString(R.string.data_folder));
-		    folder.mkdirs();
-		    folder = new File(sdcardPath+getResources().getString(R.string.backup_folder));
-		    folder.mkdirs();
-		    folder = new File(sdcardPath+getResources().getString(R.string.logs_folder));
-		    folder.mkdirs();
-		    
-		    //creating database
-		    new DatabaseWrapper(this);
-		    CollectDatabase collectDB = new CollectDatabase(DatabaseWrapper.db);	
-		    
-		    //instantiating managers
-		    ExpressionFactory expressionFactory = new ExpressionFactory();
-        	Validator validator = new Validator();
-        	CollectSurveyContext collectSurveyContext = new CollectSurveyContext(expressionFactory, validator, null);
-        	
-        	surveyManager = new SurveyManager();
-        	surveyManager.setCollectSurveyContext(collectSurveyContext);
-        	surveyManager.setSurveyDao(new SurveyDao(collectSurveyContext));
-        	surveyManager.setSurveyWorkDao(new SurveyWorkDao());
-        	
-        	userManager = new UserManager();
-        	userManager.setUserDao(new UserDao());
-        	userManager.setRecordDao(new RecordDao());
-        	
-        	//opening database connection
-        	JdbcDaoSupport jdbcDao = new JdbcDaoSupport();
-        	jdbcDao.getConnection();
-        	
-        	//reading form definition if it is not available in database
-        	//survey = surveyManager.getSurveyDao().load("Archenland NFI");
-        	survey = surveyManager.get("Archenland NFI");
-        	if (survey==null){
-            	//long startTimeParsing = System.currentTimeMillis();
-            	//Log.e("PARSING","====================");   
-            	FileInputStream fis = new FileInputStream(sdcardPath+getResources().getString(R.string.formDefinitionFile));        	
-            	SurveyIdmlBinder binder = new SurveyIdmlBinder(collectSurveyContext);
-        		binder.addApplicationOptionsBinder(new UIOptionsBinder());
-        		survey = (CollectSurvey) binder.unmarshal(fis);
-        		survey.setName(survey.getProjectName(null));
-        		surveyManager.importModel(survey);
-            	//Log.e("parsingTIME","=="+(System.currentTimeMillis()-startTimeParsing));       		
-        	}
-        	schema = survey.getSchema();              
-        	ApplicationManager.fieldsDefList = new ArrayList<NodeDefinition>();        	
-        	List<EntityDefinition> rootEntitiesDefsList = schema.getRootEntityDefinitions();
-        	getAllFormFields(rootEntitiesDefsList);
-        	
-        	ApplicationManager.uiElementsMap = new HashMap<Integer,UIElement>();        	
-        	
-        	//adding default user to database if not exists        	
-        	User defaultUser = new User();
-        	defaultUser.setName(getResources().getString(R.string.defaultUsername));
-        	defaultUser.setPassword(getResources().getString(R.string.defaultUserPassword));
-        	defaultUser.setEnabled(true);
-        	defaultUser.setId(getResources().getInteger(R.integer.defaulUsertId));
-        	defaultUser.addRole(getResources().getString(R.string.defaultUserRole));
-        	if (!userExists(defaultUser)){
-        		userManager.insert(defaultUser);
-        	}
-        	ApplicationManager.loggedInUser = defaultUser;
-        	
-        	ApplicationManager.dataManager = null;
-    		
-            JdbcDaoSupport.close();
-            
-           /showRootEntitiesListScreen();
-           */ 
     		Thread thread = new Thread(new RunnableHandler(0, Environment.getExternalStorageDirectory().toString()
     				+getResources().getString(R.string.logs_folder)
     				+getResources().getString(R.string.logs_file_name)
@@ -443,14 +308,14 @@ public class ApplicationManager extends BaseActivity {
 					new ClassLoaderResourceAccessor(), database);
 		    liquibase.update(null);
 		} catch(Exception e) {
-			Log.e("", e.getMessage(), e);
+			Log.e("==", e.getMessage(), e);
 			if (c != null) {
                 c.rollback();
 	        }
 			throw new RuntimeException(e);
 		} finally {
 			if (c != null) {
-				c.close();
+//				c.close();
 			}
 		}
 	}
@@ -496,14 +361,14 @@ public class ApplicationManager extends BaseActivity {
 	 	    		}
 	 	    		showFormRootScreen();
     	            DataManager dataManager = new DataManager((CollectSurvey) ApplicationManager.getSurvey(),ApplicationManager.getSurvey().getSchema().getRootEntityDefinition(ApplicationManager.currRootEntityId).getName(),ApplicationManager.getLoggedInUser());
-    	            String fileName = "2_3_0_4_113_9_24_collect.xml";
-    	            Log.e("fileNAMEtoLoad","=="+fileName);
-    	            dataManager.loadRecordFromXml(fileName);
+
+    	            /*Log.e("fileNAMEtoLoad","==2_3_0_4_113_9_24_collect.xml");
+    	            dataManager.loadRecordFromXml("2_3_0_4_113_9_24_collect.xml");*/
 	 	    	} else if (resultCode==getResources().getInteger(R.integer.backButtonPressed)){
 	 	    		if (ApplicationManager.getSurvey().getSchema().getRootEntityDefinitions().size()==1){
 	 	    			showFormsListScreen();
 	 	    		} else {
-	 	    			showRootEntitiesListScreen();	
+	 	    			showRootEntitiesListScreen();
 	 	    		}	 	    	
 	 	    	}
 	 	    } else if (requestCode==getResources().getInteger(R.integer.rootEntitySelection)){
@@ -528,7 +393,10 @@ public class ApplicationManager extends BaseActivity {
 		 	    			ExpressionFactory expressionFactory = new ExpressionFactory();
 		 		        	Validator validator = new Validator();
 		 		        	CollectSurveyContext collectSurveyContext = new CollectSurveyContext(expressionFactory, validator/*, null*/);
-			            	FileInputStream fis = new FileInputStream(sdcardPath+getResources().getString(R.string.formDefinitionFile));     	
+		 		        	String selectedFormDefinitionFile = ApplicationManager.appPreferences.getString(getResources().getString(R.string.formDefinitionPath), getResources().getString(R.string.defaultFormDefinitionPath));
+		 		        	Log.e("loadingForm","=FROM=="+selectedFormDefinitionFile);
+			            	//FileInputStream fis = new FileInputStream(sdcardPath+getResources().getString(R.string.formDefinitionFile));     	
+		 		        	FileInputStream fis = new FileInputStream(sdcardPath+selectedFormDefinitionFile);
 			            	SurveyIdmlBinder binder = new SurveyIdmlBinder(collectSurveyContext);
 			        		binder.addApplicationOptionsBinder(new UIOptionsBinder());
 			        		survey = (CollectSurvey) binder.unmarshal(fis);
@@ -546,9 +414,8 @@ public class ApplicationManager extends BaseActivity {
 			        		} else {
 			        			survey = loadedSurvey;
 			        		}
-			        		Log.e("survey==null","=="+(survey==null));
 			        		Log.e("survey","=="+(survey.getName()));
-			            	Log.e("parsingTIME","=="+(System.currentTimeMillis()-startTimeParsing));
+			            	Log.e("parsingTIME","=="+(System.currentTimeMillis()-startTimeParsing));			           
 	 	    			} catch (Exception e){
 	 	    				Log.e("parsingEXCEPTION","===");
 	 	    				e.printStackTrace();
@@ -793,4 +660,6 @@ public class ApplicationManager extends BaseActivity {
 		}
 		return label;
 	}
+	
+	
 }

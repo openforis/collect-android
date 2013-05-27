@@ -18,7 +18,7 @@
     <string name="selectFormDefinitionTitle">Back to form definition selection&#8230;</string> 
     <string name="selectFormDefinitionMessage">Do you want to go to form definition selection screen?</string>
     <string name="loadFormDefinitionTitle">Loading form definition&#8230;</string>
-    <string name="loadFormDefinitionMessage">Form definition from /sdcard/test.idm.xml could not be loaded. Make sure that the file exists and contains correct form definition.</string>
+    <string name="loadFormDefinitionMessage">Form definition could not be loaded. Make sure that the file exists and contains correct form definition.</string>
     <string name="selectRootEntityTitle">Back to root entity selection&#8230;</string>    
     <string name="selectRootEntityMessage">Do you want to go to root entity selection screen?</string>
     <string name="selectRecordTitle">Back to record selection&#8230;</string>    
@@ -26,7 +26,9 @@
     <string name="startGpsTitle">Starting GPS&#8230;</string>
     <string name="startGpsMessage">GPS on your device is disabled. Do you want to enable it in operating system Settings?</string>
     <string name="savingDataTitle">Saving&#8230;</string>    
-    <string name="savingDataMessage">Do you want to save data from form?</string>
+    <string name="savingDataQuestionMessage">Do you want to save data from form?</string>
+    <string name="savingDataSuccessMessage">Record successfully saved in database.</string>
+    <string name="savingDataFailureMessage">Record could not be saved in database.</string>
     <string name="savingToDatabase">Save</string>
     <string name="savingToFile">XML</string>
     <string name="openingPlotListTitle">Back to list&#8230;</string>    
@@ -72,7 +74,7 @@
     <string name="exit">Exit</string>
     
     <string name="addNewRecord">Add new</string>
-    <string name="addNewSurvey">Add new survey from file /sdcard/test.idm.xml</string>
+    <string name="addNewSurvey">Add new survey from file /sdcard</string>
     
     
     <!-- settings screen -->
@@ -92,6 +94,7 @@
     <string name="launchAppMessage">Launching application&#8230;</string>
     <string name="uploadingDataToServerMessage">Uploading data to server&#8230;</string>
     <string name="downloadingDataToServerMessage">Downloading data to device&#8230;</string>
+    <string name="searchingForTaxon">Searching for species matching criteria&#8230;</string>
     
     <!-- lists -->
     <string name="clusterChoiceFailedBecauseNoDataSaved">No data saved in local database</string>
